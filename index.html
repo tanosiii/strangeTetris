@@ -832,24 +832,88 @@
                 drawTetromino();
             }
 
-            //スマホにおいて画面がタップされた時
-            function logPosition(e){
-                // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
-                if (gameOverFlg) return;
-                if (!repeatFlg) return;
+            //---------------------- スマホ操作 --------------------------
 
-                if( event.changedTouches[0] ) {
-                    //左
-                    if(event.changedTouches[0].screenX <= TF_x/2)
-                        if (checkMove(-1, 0)) tetromino_x--;
-                    //右
-                    else if(event.changedTouches[0].screenX > TF_x/2)
-                        if (checkMove(1, 0)) tetromino_x++;
-                }
+            //フリックと見なすしきい値。開始位置のX座標フリック判定用フラグ
+            var flick_limit = 100;
+            var flick_sx = 0;
+            var flick_sy = 0;
+            var flick_flagxr = false;
+            var flick_flagyu = false;
+            var flick_flagxl = false;
+            var flick_flagyd = false;
+
+            // 画面に指が触れたときの処理を定義
+            document.addEventListener("touchstart", function(e) {
+            //スクロール無効化                                      
+            e.preventDefault();
+            // 指が触れた位置の座標を記録
+            flick_sx = e.touches[0].pageX;
+            flick_sy = e.touches[0].pageY;
+            // フリック判定用フラグ(false)
+            var flick_flagxr = false;
+            var flick_flagyu = false;
+            var flick_flagxl = false;
+            var flick_flagyd = false;
+            });
+ 
+            // 画面上で指を移動させているきの処理を定義
+            document.addEventListener("touchmove", function(e) {
+            // スクロール無効化                                     
+            e.preventDefault();
+            // 指が触れた位置の座標を記録
+            var x = e.touches[0].pageX;
+            var y = e.touches[0].pageY;
+            // 指の移動距離を算出
+            var vx = x - flick_sx;
+            var vy = y - flick_sy;
+     
+            // 移動距離がしきい値を超えていたらフリック判定を切り替え
+            flick_flagxr = (vx > flick_limit);
+            flick_flagyd = (vy > flick_limit);
+            flick_flagxl = (vx < -flick_limit);
+            flick_flagyu = (vy < -flick_limit);
+            });
+ 
+            // 画面から指が離れたときの処理を定義
+            document.addEventListener("touchend", function(e) {
+            e.preventDefault();
+     
+            // フリック判定用フラグがtrueならばアクション実行
+            if(flick_flagxr) {
+                if (checkMove(1, 0)) tetromino_x++;
             }
+            else if(flick_flagxl) {
+                if (checkMove(-1, 0)) tetromino_x--;
+            }
+            if(flick_flagyu) {
+                rotateAudio.currentTime = 0;
+                rotateAudio.play();
+                let newTetromino = rotate();
+                /*
+                テトロミノを回転させる関数で返される、
+                回転後のテトロミノの座標newTetrominoをtetrominoに設定
+                        */
+                if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
+            }
+            else if(flick_flagyd) {
+                if (checkMove(0, -1)) tetromino_y--;
+            }
+            if(e.touches.length == 2){
+                    // 移動できないと判断されるとこまで下に落ちる
+                    while (checkMove(0, 1)) tetromino_y++;
+                    downAudio.currentTime = 0;
+                    downAudio.play();
+            }
+            // フリック判定用フラグを切り替え(false)
+            var flick_flagxr = false;
+            var flick_flagyu = false;
+            var flick_flagxl = false;
+            var flick_flagyd = false;
+            });
 
         </script>
-        <p>方向キー: 移動、　enterキー: 一気に落とす、　shiftキー: 回転</p>
+        <p class="pc">方向キー: 移動、　enterキー: 一気に落とす、　shiftキー: 回転</p>
     </div>
 </body>
 
