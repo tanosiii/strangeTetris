@@ -852,6 +852,9 @@
             
             // 画面に指が触れたときの処理を定義
             document.addEventListener("touchstart", function(e) {
+             // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (gameOverFlg) return;
+                if (!repeatFlg) return;
             //スクロール無効化                                      
             //e.preventDefault();
             // 指が触れた位置の座標を記録
@@ -866,6 +869,9 @@
  
             // 画面上で指を移動させているきの処理を定義
             document.addEventListener("touchmove", function(e) {
+                 // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (gameOverFlg) return;
+                if (!repeatFlg) return;
             // スクロール無効化                                     
             e.preventDefault();
             // 指が触れた位置の座標を記録
@@ -876,16 +882,27 @@
             vy = y - flick_sy;
      
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
-            flick_flagxr = vx > flick_limit?true:false;
-            flick_flagyd = vy > flick_limit?true:false;
-            flick_flagxl = vx < -flick_limit?true:false;
-            flick_flagyu = vy < -flick_limit?true:false;
+            if(vx > flick_limit)flick_flagxr = true;
+                if(vy > flick_limit)flick_flagyd = true;
+                if(vx < -flick_limit)flick_flagxl = true;
+                if(vy < -flick_limit)flick_flagyu = true;
+            // flick_flagyd = vy > flick_limit?true:false;
+            // flick_flagxl = vx < -flick_limit?true:false;
+            // flick_flagyu = vy < -flick_limit?true:false;
             },{passive: false});
  
             // 画面から指が離れたときの処理を定義
             document.addEventListener("touchend", function(e) {
+             // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (gameOverFlg) return;
+                if (!repeatFlg) return;
             e.preventDefault();
-             alert(vx+","+flick_flagxl);
+                // 移動距離がしきい値を超えていたらフリック判定を切り替え
+            if(vx > flick_limit)flick_flagxr = true;
+                if(vy > flick_limit)flick_flagyd = true;
+                if(vx < -flick_limit)flick_flagxl = true;
+                if(vy < -flick_limit)flick_flagyu = true;
+             alert(vx+","+flick_flagxr);
             // フリック判定用フラグがtrueならばアクション実行
             if(flick_flagxr) {
                 if (checkMove(1, 0)) tetromino_x++;
@@ -917,6 +934,10 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
+
+            // 移動後再度描画
+            drawField();
+            drawTetromino();
             },{passive: false});
 
         </script>
