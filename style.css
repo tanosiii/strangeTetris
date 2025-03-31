@@ -39,4 +39,8 @@ div{
 .pc{
     display:none;
 }
+
+.main{
+    width:90vw;
+}
 }
