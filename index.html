@@ -11,7 +11,7 @@
 <body>
     <div class="main" id="touchField">
         <h1>
-            <div class="pc">変なテトリス</div>
+            <div>変なテトリス</div>
         </h1>
         <div class="drawInfo">
             <div id="score-count">スコア：0</div>
@@ -473,6 +473,8 @@
 
             //---------------------- 実行部 --------------------------
 
+            setTimeout(function(){scrollTo(0,document.getElementById("canvasId").getBoundingClientRect().bottom);},500);
+            
             document.getElementById("start-button").onclick = function () {
                 btnAudio.currentTime = 0;
                 btnAudio.play();
@@ -886,9 +888,7 @@
                 if(vy > flick_limit)flick_flagyd = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
-            // flick_flagyd = vy > flick_limit?true:false;
-            // flick_flagxl = vx < -flick_limit?true:false;
-            // flick_flagyu = vy < -flick_limit?true:false;
+                
             },{passive: false});
  
             // 画面から指が離れたときの処理を定義
@@ -902,7 +902,7 @@
                 if(vy > flick_limit)flick_flagyd = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
-             alert(vx+","+flick_flagxr);
+             //alert(vx+","+flick_flagxr);
             // フリック判定用フラグがtrueならばアクション実行
             if(flick_flagxr) {
                 if (checkMove(1, 0)) tetromino_x++;
