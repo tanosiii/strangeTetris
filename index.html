@@ -925,10 +925,10 @@
                         */
                 if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
             }
-            else if(flick_flagydSuper) {
+            else if(flick_flagyd) {
                 if (checkMove(0, 1)) tetromino_y++;
             }
-            if(e.touches.length == 2){
+            if(flick_flagydSuper){
                     // 移動できないと判断されるとこまで下に落ちる
                     while (checkMove(0, 1)) tetromino_y++;
                     downAudio.currentTime = 0;
