@@ -802,7 +802,8 @@
 
             // キーボード押下時の処理
             // document.onkeydownで取得したKeyboardEventを引数eで受け取る
-            document.onclick = function(e) {
+            document.addEventListener("keydown", function (e) {
+
                 // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
@@ -831,16 +832,16 @@
                         if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
                         break;
                     case 13: // enterキー
-                        downAudio.currentTime = 0;
-                        downAudio.play();
                         // 移動できないと判断されるとこまで下に落ちる
                         while (checkMove(0, 1)) tetromino_y++;
+                        downAudio.currentTime = 0;
+                        downAudio.play();
                         break;
                 }
                 // 移動後再度描画
                 drawField();
                 drawTetromino();
-            }
+            },{passive: false});
 
             //---------------------- スマホ操作 --------------------------
 
@@ -933,8 +934,8 @@
                 if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
             }
             //else if(flick_flagyd) {
-                if (checkMove(0, 1)) tetromino_y++;
-            }
+                //if (checkMove(0, 1)) tetromino_y++;
+            //}
             if(flick_flagydSuper){
                     // 移動できないと判断されるとこまで下に落ちる
                     while (checkMove(0, 1)) tetromino_y++;
