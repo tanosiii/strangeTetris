@@ -810,7 +810,7 @@
                     case 40: // 下
                         if (checkMove(0, 1)) tetromino_y++;
                         break;
-                    case 13: // エンターキー
+                    case 16: // shiftキー
                         rotateAudio.currentTime = 0;
                         rotateAudio.play();
                         let newTetromino = rotate();
@@ -820,7 +820,7 @@
                         */
                         if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
                         break;
-                    case 16: // shiftキー
+                    case 13: // enterキー
                         downAudio.currentTime = 0;
                         downAudio.play();
                         // 移動できないと判断されるとこまで下に落ちる
@@ -849,7 +849,7 @@
             }
 
         </script>
-        <p>方向キー: 移動、　shiftキー: 一気に落とす、　エンター: 回転</p>
+        <p>方向キー: 移動、　enterキー: 一気に落とす、　shiftキー: 回転</p>
     </div>
 </body>
 
