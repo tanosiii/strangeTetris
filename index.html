@@ -703,6 +703,7 @@
                         drawGameOver();
                         onClearInterval();
                         gameOverAudio.play();
+                        setTimeout(function(){scrollTo(0,0);},1000);
                         // ゲームオーバー表示後に他処理が走るためここで終了するよう修正
                         return;
                     }
@@ -841,13 +842,14 @@
             //---------------------- スマホ操作 --------------------------
 
             //フリックと見なすしきい値。開始位置のX座標フリック判定用フラグ
-            var flick_limit = 5;
+            var flick_limit = 20;
             var flick_sx = 0;
             var flick_sy = 0;
             var flick_flagxr = false;
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
+            var flick_flagydSuper = false;
 
             var vx=0;
             var vy=0;
@@ -867,6 +869,7 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
+            var flick_flagydSuper = false;
             },{passive: false});
  
             // 画面上で指を移動させているきの処理を定義
@@ -886,6 +889,7 @@
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
             if(vx > flick_limit)flick_flagxr = true;
                 if(vy > flick_limit)flick_flagyd = true;
+                if(vy > flick_limit*5)flick_flagydSuper = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
                 
@@ -900,6 +904,7 @@
                 // 移動距離がしきい値を超えていたらフリック判定を切り替え
             if(vx > flick_limit)flick_flagxr = true;
                 if(vy > flick_limit)flick_flagyd = true;
+                if(vy > flick_limit*5)flick_flagydSuper = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
              //alert(vx+","+flick_flagxr);
@@ -921,7 +926,7 @@
                 if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
             }
             else if(flick_flagyd) {
-                if (checkMove(0, -1)) tetromino_y--;
+                if (checkMove(0, 1)) tetromino_y++;
             }
             if(e.touches.length == 2){
                     // 移動できないと判断されるとこまで下に落ちる
@@ -934,6 +939,7 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
+            var flick_flagydSuper = false;
 
             // 移動後再度描画
             drawField();
