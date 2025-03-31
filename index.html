@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" type="text/css" />
-    <title>変なテトリス</title>
+    <title>変なテトリス -strangeTetris-</title>
 </head>
 
 <body>
@@ -846,6 +846,9 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
+
+            var vx=0;
+            var vy=0;
             
             // 画面に指が触れたときの処理を定義
             document.addEventListener("touchstart", function(e) {
@@ -869,8 +872,8 @@
             var x = e.touches[0].pageX;
             var y = e.touches[0].pageY;
             // 指の移動距離を算出
-            var vx = x - flick_sx;
-            var vy = y - flick_sy;
+            vx = x - flick_sx;
+            vy = y - flick_sy;
      
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
             flick_flagxr = (vx > flick_limit);
