@@ -32,3 +32,11 @@
 div{
     font-family:sans-serif;
 }
+
+/* スマホ用のcss */
+@media screen and (max-width:480px){
+
+.pc{
+    display:none;
+}
+}
