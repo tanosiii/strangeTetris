@@ -511,6 +511,10 @@
             まだフィールドに値が詰められていない状態のため、init呼び出す必要ある（initでフィールドにはじめて値入るので）
             */
             init();
+                            onClearInterval();
+                onSetInterval();
+                drawField();
+                drawTetromino();
 
             //---------------------- 関数部 --------------------------
 
@@ -910,7 +914,7 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
-            }{passive: false});
+            },{passive: false});
 
         </script>
         <p class="pc">方向キー: 移動、　enterキー: 一気に落とす、　shiftキー: 回転</p>
