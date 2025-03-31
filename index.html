@@ -802,10 +802,13 @@
 
             // キーボード押下時の処理
             // document.onkeydownで取得したKeyboardEventを引数eで受け取る
-            document.onkeydown = function (e) {
+            document.addEventListener("keydown", function(e) {
                 // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
+
+                e.preventDefault();
+                
                 switch (e.keyCode) {
                     case 37: // 左
                         // 移動前に移動できるかチェックを追加、引数に移動先の座標を渡す
@@ -837,12 +840,13 @@
                 // 移動後再度描画
                 drawField();
                 drawTetromino();
-            }
+            },{passive: false});
 
             //---------------------- スマホ操作 --------------------------
 
             //フリックと見なすしきい値。開始位置のX座標フリック判定用フラグ
-            var flick_limit = 20;
+            var flick_limit = 30;
+            var flick_limitSuper = 100;
             var flick_sx = 0;
             var flick_sy = 0;
             var flick_flagxr = false;
@@ -857,6 +861,7 @@
             // 画面に指が触れたときの処理を定義
             document.addEventListener("touchstart", function(e) {
              // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (!navigator.userAgent.match(/iPhone|Android.+Mobile/))return;
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
             //スクロール無効化                                      
@@ -875,6 +880,7 @@
             // 画面上で指を移動させているきの処理を定義
             document.addEventListener("touchmove", function(e) {
                  // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (!navigator.userAgent.match(/iPhone|Android.+Mobile/))return;
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
             // スクロール無効化                                     
@@ -889,7 +895,7 @@
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
             if(vx > flick_limit)flick_flagxr = true;
                 if(vy > flick_limit)flick_flagyd = true;
-                if(vy > flick_limit*5)flick_flagydSuper = true;
+                if(vy > flick_limitSuper)flick_flagydSuper = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
                 
@@ -898,13 +904,14 @@
             // 画面から指が離れたときの処理を定義
             document.addEventListener("touchend", function(e) {
              // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (!navigator.userAgent.match(/iPhone|Android.+Mobile/))return;
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
             e.preventDefault();
                 // 移動距離がしきい値を超えていたらフリック判定を切り替え
             if(vx > flick_limit)flick_flagxr = true;
                 if(vy > flick_limit)flick_flagyd = true;
-                if(vy > flick_limit*5)flick_flagydSuper = true;
+                if(vy > flick_limitSuper)flick_flagydSuper = true;
                 if(vx < -flick_limit)flick_flagxl = true;
                 if(vy < -flick_limit)flick_flagyu = true;
              //alert(vx+","+flick_flagxr);
@@ -925,7 +932,7 @@
                         */
                 if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
             }
-            else if(flick_flagyd) {
+            //else if(flick_flagyd) {
                 if (checkMove(0, 1)) tetromino_y++;
             }
             if(flick_flagydSuper){
