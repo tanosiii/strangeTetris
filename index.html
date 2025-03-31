@@ -472,7 +472,11 @@
 
 
             //---------------------- 実行部 --------------------------
-
+                init();
+                onClearInterval();
+                onSetInterval();
+                drawField();
+                drawTetromino();
             document.getElementById("start-button").onclick = function () {
                 btnAudio.currentTime = 0;
                 btnAudio.play();
@@ -842,9 +846,6 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
-
-            var vx=0;
-            var vy=0;
             
             // 画面に指が触れたときの処理を定義
             document.addEventListener("touchstart", function(e) {
@@ -858,7 +859,7 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
-            });
+            },{passive: false});
  
             // 画面上で指を移動させているきの処理を定義
             document.addEventListener("touchmove", function(e) {
@@ -868,20 +869,20 @@
             var x = e.touches[0].pageX;
             var y = e.touches[0].pageY;
             // 指の移動距離を算出
-            vx = x - flick_sx;
-            vy = y - flick_sy;
+            var vx = x - flick_sx;
+            var vy = y - flick_sy;
      
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
             flick_flagxr = (vx > flick_limit);
             flick_flagyd = (vy > flick_limit);
             flick_flagxl = (vx < -flick_limit);
             flick_flagyu = (vy < -flick_limit);
-            });
+            },{passive: false});
  
             // 画面から指が離れたときの処理を定義
             document.addEventListener("touchend", function(e) {
             e.preventDefault();
-             alert(vx);
+             //alert(vx);
             // フリック判定用フラグがtrueならばアクション実行
             if(flick_flagxr) {
                 if (checkMove(1, 0)) tetromino_x++;
@@ -913,7 +914,7 @@
             var flick_flagyu = false;
             var flick_flagxl = false;
             var flick_flagyd = false;
-            });
+            }{passive: false});
 
         </script>
         <p class="pc">方向キー: 移動、　enterキー: 一気に落とす、　shiftキー: 回転</p>
