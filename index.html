@@ -802,7 +802,7 @@
 
             // キーボード押下時の処理
             // document.onkeydownで取得したKeyboardEventを引数eで受け取る
-            document.addEventListener("keydown", function(e) {
+            document.onclick = function(e) {
                 // ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
                 if (gameOverFlg) return;
                 if (!repeatFlg) return;
@@ -840,7 +840,7 @@
                 // 移動後再度描画
                 drawField();
                 drawTetromino();
-            },{passive: false});
+            }
 
             //---------------------- スマホ操作 --------------------------
 
