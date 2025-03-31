@@ -843,10 +843,13 @@
             var flick_flagxl = false;
             var flick_flagyd = false;
 
+            var vx=0;
+            var vy=0;
+            
             // 画面に指が触れたときの処理を定義
             document.addEventListener("touchstart", function(e) {
             //スクロール無効化                                      
-            e.preventDefault();
+            //e.preventDefault();
             // 指が触れた位置の座標を記録
             flick_sx = e.touches[0].pageX;
             flick_sy = e.touches[0].pageY;
@@ -865,8 +868,8 @@
             var x = e.touches[0].pageX;
             var y = e.touches[0].pageY;
             // 指の移動距離を算出
-            var vx = x - flick_sx;
-            var vy = y - flick_sy;
+            vx = x - flick_sx;
+            vy = y - flick_sy;
      
             // 移動距離がしきい値を超えていたらフリック判定を切り替え
             flick_flagxr = (vx > flick_limit);
@@ -878,7 +881,7 @@
             // 画面から指が離れたときの処理を定義
             document.addEventListener("touchend", function(e) {
             e.preventDefault();
-     
+             alert(vx);
             // フリック判定用フラグがtrueならばアクション実行
             if(flick_flagxr) {
                 if (checkMove(1, 0)) tetromino_x++;
