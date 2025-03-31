@@ -909,10 +909,10 @@
                 if(vy < -flick_limit)flick_flagyu = true;
              //alert(vx+","+flick_flagxr);
             // フリック判定用フラグがtrueならばアクション実行
-            if(flick_flagxr) {
+            if(flick_flagxr && !flick_flagydSuper) {
                 if (checkMove(1, 0)) tetromino_x++;
             }
-            else if(flick_flagxl) {
+            else if(flick_flagxl && !flick_flagydSuper) {
                 if (checkMove(-1, 0)) tetromino_x--;
             }
             if(flick_flagyu) {
